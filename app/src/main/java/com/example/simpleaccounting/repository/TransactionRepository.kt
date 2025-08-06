@@ -1,48 +1,46 @@
 package com.example.simpleaccounting.repository
 
-import com.example.simpleaccounting.data.AppDatabase
+import com.example.simpleaccounting.data.InMemoryDataStore
 import com.example.simpleaccounting.data.Transaction
 import com.example.simpleaccounting.data.TransactionType
 import kotlinx.coroutines.flow.Flow
 
-class TransactionRepository(private val database: AppDatabase) {
-    
-    private val transactionDao = database.transactionDao()
+class TransactionRepository(private val dataStore: InMemoryDataStore) {
     
     fun getAllTransactions(): Flow<List<Transaction>> {
-        return transactionDao.getAllTransactions()
+        return dataStore.getAllTransactions()
     }
     
     fun getTransactionsByType(type: TransactionType): Flow<List<Transaction>> {
-        return transactionDao.getTransactionsByType(type)
+        return dataStore.getTransactionsByType(type)
     }
     
     fun getTransactionsByCategory(category: String): Flow<List<Transaction>> {
-        return transactionDao.getTransactionsByCategory(category)
+        return dataStore.getTransactionsByCategory(category)
     }
     
     suspend fun getTotalByType(type: TransactionType): Double {
-        return transactionDao.getTotalByType(type) ?: 0.0
+        return dataStore.getTotalByType(type)
     }
     
     fun getAllCategories(): Flow<List<String>> {
-        return transactionDao.getAllCategories()
+        return dataStore.getAllCategories()
     }
     
     suspend fun insertTransaction(transaction: Transaction) {
-        transactionDao.insertTransaction(transaction)
+        dataStore.insertTransaction(transaction)
     }
     
     suspend fun updateTransaction(transaction: Transaction) {
-        transactionDao.updateTransaction(transaction)
+        dataStore.updateTransaction(transaction)
     }
     
     suspend fun deleteTransaction(transaction: Transaction) {
-        transactionDao.deleteTransaction(transaction)
+        dataStore.deleteTransaction(transaction)
     }
     
     suspend fun deleteTransactionById(id: Long) {
-        transactionDao.deleteTransactionById(id)
+        dataStore.deleteTransactionById(id)
     }
     
     suspend fun getBalance(): Double {

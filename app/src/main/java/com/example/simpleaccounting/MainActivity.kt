@@ -9,7 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.simpleaccounting.data.AppDatabase
+import com.example.simpleaccounting.data.InMemoryDataStore
 import com.example.simpleaccounting.repository.TransactionRepository
 import com.example.simpleaccounting.ui.screen.MainScreen
 import com.example.simpleaccounting.ui.screen.StatisticsScreen
@@ -23,8 +23,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        val database = AppDatabase.getDatabase(this)
-        val repository = TransactionRepository(database)
+        val dataStore = InMemoryDataStore.getInstance()
+        val repository = TransactionRepository(dataStore)
         val mainViewModelFactory = MainViewModelFactory(repository)
         val statisticsViewModelFactory = StatisticsViewModelFactory(repository)
         
